@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_fragment"
+    app:startDestination="@id/recommendFragment">
+
+    <fragment
+        android:id="@+id/recommendFragment"
+        android:name="com.rain.wallpaper.ui.fragment.RecommendFragment"
+        android:label="main_fragment"
+        tools:layout="@layout/fragment_recommend">
+        <action
+            android:id="@+id/action_main"
+            app:destination="@id/recommendFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/classifyFragment"
+        android:name="com.rain.wallpaper.ui.fragment.ClassifyFragment"
+        android:label="classify_fragment"
+        tools:layout="@layout/fragment_classify">
+        <action
+            android:id="@+id/action_classify"
+            app:destination="@id/classifyFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mineFragment"
+        android:name="com.rain.wallpaper.ui.fragment.MineFragment"
+        android:label="mine_fragment"
+        tools:layout="@layout/fragment_mine">
+        <action
+            android:id="@+id/action_mine"
+            app:destination="@id/mineFragment" />
+    </fragment>
+
+</navigation>
