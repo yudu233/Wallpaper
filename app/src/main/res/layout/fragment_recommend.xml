@@ -6,24 +6,15 @@
 
     <data>
         <variable
-            name="datas"
-            type="com.rain.wallpaper.ui.Entity" />
+            name="viewModel"
+            type="com.rain.wallpaper.ui.recommend.RecommendViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatTextView
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:text="@{datas.content.get(0)}"
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
         <androidx.recyclerview.widget.RecyclerView
-            android:visibility="gone"
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

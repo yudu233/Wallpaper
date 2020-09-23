@@ -1,15 +1,8 @@
 package com.rain.wallpaper.ui.fragment;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
+import com.rain.sdk.base.fragment.BaseInjectFragment;
 import com.rain.wallpaper.R;
+import com.rain.wallpaper.databinding.FragmentClassifyBinding;
 
 /**
  * @Author: Rain
@@ -19,11 +12,18 @@ import com.rain.wallpaper.R;
  * @CreateDate: 2020/8/13 21:55
  * @Describe:
  */
-public class ClassifyFragment extends Fragment {
-    @Nullable
+public class ClassifyFragment extends BaseInjectFragment<FragmentClassifyBinding> {
+    public static ClassifyFragment newInstance() {
+        return new ClassifyFragment();
+    }
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_classify, container, false);
-        return view;
+    protected int getLayoutId() {
+        return R.layout.fragment_classify;
+    }
+
+    @Override
+    protected void initView() {
+
     }
 }

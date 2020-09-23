@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/recommendFragment"
-        android:name="com.rain.wallpaper.ui.fragment.RecommendFragment"
+        android:name="com.rain.wallpaper.ui.recommend.RecommendFragment"
         android:label="main_fragment"
         tools:layout="@layout/fragment_recommend">
         <action

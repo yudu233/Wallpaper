@@ -2,8 +2,6 @@ package com.rain.wallpaper.app;
 
 import android.app.Application;
 
-import com.rain.wallpaper.http.RetrofitClient;
-
 import dagger.hilt.android.HiltAndroidApp;
 
 /**
@@ -20,8 +18,5 @@ public class WallpaperApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
-//        RetrofitClient.getInstance().init();
-
     }
 }

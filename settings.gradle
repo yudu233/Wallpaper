@@ -1,2 +1,4 @@
+include ':common_api'
+include ':common_sdk'
 include ':app'
 rootProject.name = "Wallpaper"
