@@ -2,6 +2,8 @@ package com.rain.wallpaper.app;
 
 import android.app.Application;
 
+import com.blankj.utilcode.util.LogUtils;
+
 import dagger.hilt.android.HiltAndroidApp;
 
 /**
@@ -18,5 +20,9 @@ public class WallpaperApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        LogUtils.Config logConfig = LogUtils.getConfig();
+        logConfig.setLogHeadSwitch(false);
+        logConfig.setBorderSwitch(false);
     }
 }

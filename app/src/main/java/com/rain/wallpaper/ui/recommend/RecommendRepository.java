@@ -37,7 +37,7 @@ public class RecommendRepository {
     public RecommendRepository() {
     }
 
-    public void getRecommendPhotos(final RecommendViewModel viewModel, final boolean isRefresh) {
+    public void getRecommendPhotos(RecommendViewModel viewModel, boolean isRefresh) {
         LogUtils.e(viewModel.getListRequestPage() + "--------Page---------");
         retrofit.create(WallpaperApiService.class)
                 .getRecommendPhotos(viewModel.getListRequestPage(), viewModel.getListPerPage())
@@ -47,13 +47,14 @@ public class RecommendRepository {
                         .flatMap((Function<ImageInfo, ObservableSource<Photo>>) imageInfo -> {
                             Photo photo = new Photo(imageInfo);
                             return Observable.just(photo);
-                        }).toList()).subscribe(new CustomerSubscriber<List<Photo>>(true) {
+                        }).toList()).subscribe(new CustomerSubscriber<List<Photo>>(
+                viewModel.getListRequestPage() <= 1) {
             @Override
             protected void onSuccess(List<Photo> response) {
                 if (isRefresh) {
                     viewModel.writeDataSource(resource -> ListResource.refreshSuccess(resource, response));
                 } else {
-                    viewModel.writeDataSource(resource -> ListResource.loadSuccess(resource, response));
+                    viewModel.writeDataSource(resource -> ListResource.loadSuccessNot(resource, response));
                 }
             }
         });

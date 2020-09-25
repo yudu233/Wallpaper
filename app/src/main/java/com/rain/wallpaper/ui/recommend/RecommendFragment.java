@@ -44,21 +44,37 @@ public class RecommendFragment extends BaseInjectFragment<FragmentRecommendBindi
         RecommendViewModel recommendViewMode = new ViewModelProvider(this).get(RecommendViewModel.class);
         binding.setViewModel(recommendViewMode);
 
+
+        imageAdapter.setEmptyView(R.layout.layout_loading);
+        imageAdapter.getLoadMoreModule().setAutoLoadMore(true);
+        imageAdapter.getLoadMoreModule().setEnableLoadMore(false);
+        //当自动加载开启，同时数据不满一屏时，是否继续执行自动加载更多(默认为true)
+        //imageAdapter.getLoadMoreModule().setEnableLoadMoreIfNotFullPage(false);
+        imageAdapter.getLoadMoreModule().setOnLoadMoreListener(() -> {
+            LogUtils.e("viewmode","viewmode ============ "+recommendViewMode.getListRequestPage());
+
+            recommendViewMode.load();
+        });
+
+
         recommendViewMode.init(ListResource.refreshing(0, PhotoListPager.DEFAULT_PER_PAGE));
         recommendViewMode.observeListResource(this, viewModel -> {
+
             ListResource.State state = viewModel.getListState();
+            imageAdapter.getLoadMoreModule().setEnableLoadMore(true);
             LogUtils.e(state);
             if (state == ListResource.State.REFRESHING || state == ListResource.State.LOADING &&
                     viewModel.getListSize() == 0) return;
             viewModel.readDataList(list -> {
+                if (list.size() <10)
+                    imageAdapter.getLoadMoreModule().loadMoreEnd();
+                else
+                    imageAdapter.getLoadMoreModule().loadMoreComplete();
                 LogUtils.e("observeListResource : " + list.size());
-                imageAdapter.setList(list);
+              /* if (viewModel.getListRequestPage() == 1)*/ imageAdapter.addData(list);
+
+
             });
-        });
-        imageAdapter.getLoadMoreModule().setOnLoadMoreListener(() -> {
-            LogUtils.e("loadMore");
-            recommendViewMode.load();
-            imageAdapter.getLoadMoreModule().loadMoreEnd();
         });
     }
 }

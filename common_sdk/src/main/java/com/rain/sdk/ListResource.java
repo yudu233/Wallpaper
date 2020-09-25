@@ -113,4 +113,13 @@ public class ListResource<T> {
         );
     }
 
+    public static <T> ListResource<T> loadSuccessNot(@NonNull ListResource<T> oldList, @NonNull List<T> newList){
+        return new ListResource<>(
+                newList,
+                State.SUCCESS,
+                oldList.dataPage + 1,
+                oldList.perPage
+        );
+    }
+
 }
