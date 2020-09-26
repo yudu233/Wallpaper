@@ -1,6 +1,7 @@
 package com.rain.sdk.di.module;
 
 import com.google.gson.Gson;
+import com.rain.api.UrlCollection;
 import com.rain.sdk.BuildConfig;
 
 import org.jetbrains.annotations.NotNull;
@@ -43,8 +44,7 @@ public abstract class HttpClientModule {
     @Provides
     static Retrofit provideRetrofit(Retrofit.Builder builder, OkHttpClient client,Gson gson) {
         return builder
-                .baseUrl("https://unsplash.com/napi/")
-//                .baseUrl("https://api.unsplash.com/")
+                .baseUrl(UrlCollection.UNSPLASH_NAPI_BASE_URL)
                 .client(client)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
@@ -68,6 +68,8 @@ public abstract class HttpClientModule {
                                 .removeHeader("User-Agent")
                                 .addHeader("User-Agent",
                                         "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.7 Safari/537.36")
+
+//                                .addHeader("Authorization","Client-ID " + UrlCollection.UNSPLASH_ACCESS_KEY)
                                 .build();
                         return chain.proceed(request);
                     }

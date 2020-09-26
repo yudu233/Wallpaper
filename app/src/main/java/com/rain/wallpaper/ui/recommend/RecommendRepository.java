@@ -1,6 +1,5 @@
 package com.rain.wallpaper.ui.recommend;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.rain.api.data.ImageInfo;
 import com.rain.api.data.Photo;
 import com.rain.api.service.WallpaperApiService;
@@ -36,18 +35,25 @@ public class RecommendRepository {
     @Inject
     public RecommendRepository() {
     }
+    private int page = 0;
 
-    public void getRecommendPhotos(RecommendViewModel viewModel, boolean isRefresh) {
-        LogUtils.e(viewModel.getListRequestPage() + "--------Page---------");
-        retrofit.create(WallpaperApiService.class)
-                .getRecommendPhotos(viewModel.getListRequestPage(), viewModel.getListPerPage())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+//    public  Observable<List<Photo>> getRecommendPhotos(RecommendViewModel viewModel, boolean isRefresh) {
+
+        public  void getRecommendPhotos(RecommendViewModel viewModel, boolean isRefresh) {
+
+            page += 1;
+         retrofit.create(WallpaperApiService.class)
+//                .getRecommendPhotos(page, 10)
+                 .getRecommendPhotos(viewModel.getListRequestPage(), 10)
+
+                 .subscribeOn(Schedulers.io())
                 .flatMapSingle((Function<List<ImageInfo>, SingleSource<List<Photo>>>) imageInfos -> Observable.fromIterable(imageInfos)
                         .flatMap((Function<ImageInfo, ObservableSource<Photo>>) imageInfo -> {
                             Photo photo = new Photo(imageInfo);
                             return Observable.just(photo);
-                        }).toList()).subscribe(new CustomerSubscriber<List<Photo>>(
+                        }).toList())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new CustomerSubscriber<List<Photo>>(
                 viewModel.getListRequestPage() <= 1) {
             @Override
             protected void onSuccess(List<Photo> response) {

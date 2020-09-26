@@ -20,10 +20,19 @@ public class UrlCollection {
 
     public static final String UNSPLASH_IMAGE_REQUEST_URL = "http://unsplash.nesnode.com/";
 
+    public static final String UNSPLASH_ACCESS_KEY = "Wv5MGYt-bU22ODCtpcKLG681ef9aCVsNpYmTjiOG4Fk";
+
+    public static final String UNSPLASH_SECRET_KEY = "Eie2l1XqSiODrnKM0bYh0-dNmEHeNGvtLMROhOWfU8M";
+
 
     /* ----------------------------- DETAILS API ----------------------------- */
 
+    public static final String CATEGORIES = "categories";
+
     //get recommend photos
     public static final String RECOMMEND_PHOTOS = "photos";
+
+    //get photo from categories
+    public static final String GET_PHOTO_BY_CATEGORIES = CATEGORIES + "/%1$s" + "/";
 
 }

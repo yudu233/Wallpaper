@@ -5,14 +5,19 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.module.LoadMoreModule;
 import com.chad.library.adapter.base.viewholder.BaseViewHolder;
 import com.rain.api.data.Photo;
+import com.rain.sdk.image.CoverImageView;
 import com.rain.sdk.image.ImageUtils;
 import com.rain.wallpaper.R;
 
@@ -34,18 +39,37 @@ public class ImageAdapter extends BaseQuickAdapter<Photo, BaseViewHolder> implem
     @Override
     protected void convert(@NonNull BaseViewHolder helper, Photo data) {
 
-        AppCompatImageView imageView = helper.itemView.findViewById(R.id.imageView);
-
+        CoverImageView imageView = helper.itemView.findViewById(R.id.imageView);
+        imageView.setSize(data.photoSize[0], data.photoSize[1]);
+        imageView.setShowShadow(true);
+        ImageUtils.setImageViewSaturation(imageView, false ? 1 : 0);
+       int[] thumbSize = new int[] {Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL};
         RequestBuilder<Drawable> thumb =  TextUtils.isEmpty(data.thumbUrl) ? null : Glide.with(getContext())
                 .load(data.thumbUrl)
-                .override(data.photoSize[0], data.photoSize[1]);
 
-        ImageUtils.setImageViewSaturation(imageView, false ? 1 : 0);
+                .override(thumbSize[0], thumbSize[1]).diskCacheStrategy(
+                        DiskCacheStrategy.NONE
+                ).listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        imageView.setTag(R.id.tag_item_image_fade_in_flag, false);
+
+                        return false;
+                    }
+                });
+        imageView.setTag(R.id.tag_item_image_fade_in_flag, true);
+
 
         Glide.with(imageView)
                 .load(data.photoUrl)
-                .thumbnail(thumb)
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .override(data.photoSize[0], data.photoSize[1])
+                .thumbnail(thumb)
                 .into(imageView);
 
         ImageUtils.startSaturationAnimation(getContext(), imageView);
