@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/classifyFragment"
-        android:name="com.rain.wallpaper.ui.fragment.ClassifyFragment"
+        android:name="com.rain.wallpaper.ui.classify.ClassifyFragment"
         android:label="classify_fragment"
         tools:layout="@layout/fragment_classify">
         <action

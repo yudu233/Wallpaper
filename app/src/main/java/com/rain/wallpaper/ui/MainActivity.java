@@ -11,7 +11,7 @@ import androidx.lifecycle.Lifecycle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.rain.wallpaper.R;
-import com.rain.wallpaper.ui.fragment.ClassifyFragment;
+import com.rain.wallpaper.ui.classify.ClassifyFragment;
 import com.rain.wallpaper.ui.fragment.MineFragment;
 import com.rain.wallpaper.ui.recommend.RecommendFragment;
 

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="cover_images_title_CN">
+        <item>在家办公</item>
+        <item>技术</item>
+        <item>壁纸</item>
+        <item>旅行</item>
+        <item>大自然</item>
+        <item>电影</item>
+        <item>纹理</item>
+        <item>时事</item>
+        <item>人物</item>
+        <item>商业与工作</item>
+        <item>新冠肺炎</item>
+        <item>动物</item>
+        <item>内饰</item>
+        <item>建筑</item>
+        <item>食物</item>
+        <item>运动</item>
+        <item>探索</item>
+        <item>健康</item>
+        <item>时尚</item>
+        <item>实验</item>
+        <item>艺术与文化</item>
+        <item>历史</item>
+        <item>街头摄影</item>
+
+    </array>
+
+    <array name="cover_images_title_EN">
+        <item>Work From Home</item>
+        <item>Technology</item>
+        <item>Wallpapers</item>
+        <item>Travel</item>
+        <item>Nature</item>
+        <item>Film</item>
+        <item>Textures Patterns</item>
+        <item>Current Events</item>
+        <item>People</item>
+        <item>Business Work</item>
+        <item>COVID-19</item>
+        <item>Animals</item>
+        <item>Interiors</item>
+        <item>Architecture</item>
+        <item>Food</item>
+        <item>Athletics</item>
+        <item>Spirituality</item>
+        <item>Health</item>
+        <item>Fashion</item>
+        <item>Experimental</item>
+        <item>Arts Culture</item>
+        <item>History</item>
+        <item>Street Photography</item>
+    </array>
+
+</resources>
