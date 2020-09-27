@@ -46,7 +46,7 @@ public class ListResource<T> {
 
     public static <T> ListResource<T> loading(@NonNull ListResource<T> current) {
         return new ListResource<>(
-                current.dataList,
+                new ArrayList<>(),
                 State.LOADING,
                 current.dataPage,
                 current.perPage
@@ -82,7 +82,7 @@ public class ListResource<T> {
 
     public static <T> ListResource<T> refreshing(@NonNull ListResource<T> current) {
         return new ListResource<>(
-                current.dataList,
+                new ArrayList<>(),
                 State.REFRESHING,
                 current.dataPage,
                 current.perPage

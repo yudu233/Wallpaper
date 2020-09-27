@@ -1,5 +1,6 @@
 package com.rain.wallpaper.ui.adapter;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 
@@ -33,18 +34,18 @@ import java.util.List;
  */
 public class ImageAdapter extends BaseQuickAdapter<Photo, BaseViewHolder> implements LoadMoreModule {
     public ImageAdapter(@Nullable List<Photo> data, int redId) {
-        super(redId,data);
+        super(redId, data);
     }
 
     @Override
     protected void convert(@NonNull BaseViewHolder helper, Photo data) {
 
+        helper.itemView.findViewById(R.id.parentView).setBackgroundColor(Color.parseColor(data.color));
         CoverImageView imageView = helper.itemView.findViewById(R.id.imageView);
         imageView.setSize(data.photoSize[0], data.photoSize[1]);
-        imageView.setShowShadow(true);
         ImageUtils.setImageViewSaturation(imageView, false ? 1 : 0);
-       int[] thumbSize = new int[] {Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL};
-        RequestBuilder<Drawable> thumb =  TextUtils.isEmpty(data.thumbUrl) ? null : Glide.with(getContext())
+        int[] thumbSize = new int[]{Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL};
+        RequestBuilder<Drawable> thumb = TextUtils.isEmpty(data.thumbUrl) ? null : Glide.with(getContext())
                 .load(data.thumbUrl)
 
                 .override(thumbSize[0], thumbSize[1]).diskCacheStrategy(

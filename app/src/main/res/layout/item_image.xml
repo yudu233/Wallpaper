@@ -9,16 +9,15 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parentView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <com.rain.sdk.image.CoverImageView
-            android:background="@color/colorPrimary_dark"
             android:id="@+id/imageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
-            app:civ_shadow_position="bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

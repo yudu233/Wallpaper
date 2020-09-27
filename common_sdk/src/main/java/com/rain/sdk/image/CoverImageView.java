@@ -2,18 +2,12 @@ package com.rain.sdk.image;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.LinearGradient;
-import android.graphics.Paint;
-import android.graphics.Shader;
 import android.util.AttributeSet;
 
 import androidx.annotation.IntRange;
 import androidx.annotation.Size;
 import androidx.appcompat.widget.AppCompatImageView;
 
-import com.blankj.utilcode.util.ConvertUtils;
 import com.rain.sdk.R;
 
 /**
@@ -26,24 +20,14 @@ import com.rain.sdk.R;
  */
 public class CoverImageView extends AppCompatImageView {
 
-    private Paint topPaint;
-    private Paint bottomPaint;
-
-    // measure size according the width and height. (proportion)
     private float width = 1;
     private float height = 0.6f;
 
     private boolean dynamicSize = true;
-    private boolean showShadow = false;
-
-    private int textPosition;
-    private static final int POSITION_NONE = 0;
-    private static final int POSITION_TOP = 1;
-    private static final int POSITION_BOTTOM = -1;
-    private static final int POSITION_BOTH = 2;
 
     @IntRange(from = 0)
-    private @interface SizeRule {}
+    private @interface SizeRule {
+    }
 
     public CoverImageView(Context context) {
         super(context);
@@ -62,11 +46,7 @@ public class CoverImageView extends AppCompatImageView {
     private void initialize(Context c, AttributeSet attrs, int defStyleAttr) {
         TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.CoverImageView, defStyleAttr, 0);
         this.dynamicSize = a.getBoolean(R.styleable.CoverImageView_civ_dynamic_size, true);
-        this.textPosition = a.getInt(R.styleable.CoverImageView_civ_shadow_position, POSITION_NONE);
         a.recycle();
-
-        this.topPaint = new Paint();
-        this.bottomPaint = new Paint();
     }
 
     @Override
@@ -81,34 +61,12 @@ public class CoverImageView extends AppCompatImageView {
         } else {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         }
-        setPaintStyle();
     }
 
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        if (showShadow) {
-            switch (textPosition) {
-                case POSITION_TOP: {
-                    canvas.drawRect(0, 0, getMeasuredWidth(), getMeasuredHeight(), topPaint);
-                    break;
-                }
-                case POSITION_BOTTOM: {
-                    canvas.drawRect(0, 0, getMeasuredWidth(), getMeasuredHeight(), bottomPaint);
-                    break;
-                }
-                case POSITION_BOTH: {
-                    canvas.drawRect(0, 0, getMeasuredWidth(), getMeasuredHeight(), topPaint);
-                    canvas.drawRect(0, 0, getMeasuredWidth(), getMeasuredHeight(), bottomPaint);
-                    break;
-                }
-            }
-        }
-    }
 
     @Size(2)
     public float[] getSize() {
-        return new float[] {width, height};
+        return new float[]{width, height};
     }
 
     public void setSize(@SizeRule int w, @SizeRule int h) {
@@ -121,47 +79,10 @@ public class CoverImageView extends AppCompatImageView {
 
     @Size(2)
     public static int[] getMeasureSize(int measureWidth, float w, float h) {
-        return new int[] {
+        return new int[]{
                 measureWidth,
                 (int) (measureWidth * h / w)
         };
-    }
-
-    public void setShowShadow(boolean show) {
-        this.showShadow = show;
-        invalidate();
-    }
-
-    private void setPaintStyle() {
-        topPaint.setShader(
-                new LinearGradient(
-                        0, 0,
-                        0, (int) ConvertUtils.dp2px(128),
-                        new int[]{
-                                Color.argb((int) (255 ), 0, 0, 0),
-                                Color.argb((int) (255 ), 0, 0, 0),
-                                Color.argb((int) (255 ), 0, 0, 0),
-                                Color.argb(0, 0, 0, 0)
-                        },
-                        null,
-                        Shader.TileMode.CLAMP
-                )
-        );
-
-        bottomPaint.setShader(
-                new LinearGradient(
-                        0, getMeasuredHeight(),
-                        0, getMeasuredHeight() - (int) ConvertUtils.dp2px(72),
-                        new int[]{
-                                Color.argb((int) (255 ), 0, 0, 0),
-                                Color.argb((int) (255 ), 0, 0, 0),
-                                Color.argb((int) (255 ), 0, 0, 0),
-                                Color.argb(0, 0, 0, 0)
-                        },
-                        null,
-                        Shader.TileMode.CLAMP
-                )
-        );
     }
 }
 

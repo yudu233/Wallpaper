@@ -13,7 +13,7 @@ import androidx.annotation.IntRange;
 public class PhotoListPager {
     public static final int DEFAULT_PER_PAGE = 10;
 
-    @IntRange(from = 0, to = 30)
+    @IntRange(from = 0, to = Integer.MAX_VALUE)
     public @interface PerPageRule {
     }
 

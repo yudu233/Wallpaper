@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.annotation.Size;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.ScreenUtils;
 
 /**
@@ -24,6 +25,7 @@ public class Photo {
     public String thumbUrl;
     public @Size
     int[] photoSize;
+    public String color;
 
     public Photo(ImageInfo imageInfo) {
         this.imageInfo = imageInfo;
@@ -31,9 +33,13 @@ public class Photo {
                 .replace("https://images.unsplash.com/", "http://unsplash.nesnode.com/");
         this.thumbUrl = imageInfo.getUrls().getThumb()
                 .replace("https://images.unsplash.com/", "http://unsplash.nesnode.com/");
-        this.photoSize = new int[]{
-                ScreenUtils.getScreenWidth(), (int) ((float) ScreenUtils.getScreenWidth() / imageInfo.getWidth() * imageInfo.getHeight())
-        };
+        this.photoSize =
+                getRegularSize();
+//                new int[]{
+//                ScreenUtils.getScreenWidth(), (int) ((float) ScreenUtils.getScreenWidth() / imageInfo.getWidth() * imageInfo.getHeight())
+//        };
+
+        this.color = imageInfo.getColor();
     }
 
     /**
@@ -44,7 +50,7 @@ public class Photo {
     @Size(2)
     public int[] getRegularSize() {
         return new int[]{
-                1080, (int) (1080f) / imageInfo.getWidth() * imageInfo.getHeight()
+                1080, (int) ((1080f) / imageInfo.getWidth() * imageInfo.getHeight())
         };
     }
 

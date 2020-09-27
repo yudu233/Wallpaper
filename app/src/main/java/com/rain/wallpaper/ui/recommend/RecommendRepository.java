@@ -1,10 +1,13 @@
 package com.rain.wallpaper.ui.recommend;
 
+import com.blankj.utilcode.util.LogUtils;
 import com.rain.api.data.ImageInfo;
 import com.rain.api.data.Photo;
 import com.rain.api.service.WallpaperApiService;
 import com.rain.sdk.ListResource;
 import com.rain.sdk.network.rxWeaver.CustomerSubscriber;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
@@ -35,34 +38,34 @@ public class RecommendRepository {
     @Inject
     public RecommendRepository() {
     }
-    private int page = 0;
 
-//    public  Observable<List<Photo>> getRecommendPhotos(RecommendViewModel viewModel, boolean isRefresh) {
-
-        public  void getRecommendPhotos(RecommendViewModel viewModel, boolean isRefresh) {
-
-            page += 1;
-         retrofit.create(WallpaperApiService.class)
-//                .getRecommendPhotos(page, 10)
-                 .getRecommendPhotos(viewModel.getListRequestPage(), 10)
-
-                 .subscribeOn(Schedulers.io())
-                .flatMapSingle((Function<List<ImageInfo>, SingleSource<List<Photo>>>) imageInfos -> Observable.fromIterable(imageInfos)
-                        .flatMap((Function<ImageInfo, ObservableSource<Photo>>) imageInfo -> {
-                            Photo photo = new Photo(imageInfo);
-                            return Observable.just(photo);
-                        }).toList())
+    public void getRecommendPhotos(RecommendViewModel viewModel, boolean isRefresh) {
+        LogUtils.e("getRecommendPhotos : page = " + viewModel.getListRequestPage());
+        retrofit.create(WallpaperApiService.class)
+                .getRecommendPhotos(viewModel.getListRequestPage(), viewModel.getListPerPage())
+                .subscribeOn(Schedulers.io())
+                .flatMapSingle((Function<List<ImageInfo>, SingleSource<List<Photo>>>) imageInfos ->
+                        Observable.fromIterable(imageInfos)
+                                .flatMap((Function<ImageInfo, ObservableSource<Photo>>) imageInfo -> {
+                                    Photo photo = new Photo(imageInfo);
+                                    return Observable.just(photo);
+                                }).toList())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new CustomerSubscriber<List<Photo>>(
-                viewModel.getListRequestPage() <= 1) {
-            @Override
-            protected void onSuccess(List<Photo> response) {
-                if (isRefresh) {
-                    viewModel.writeDataSource(resource -> ListResource.refreshSuccess(resource, response));
-                } else {
-                    viewModel.writeDataSource(resource -> ListResource.loadSuccessNot(resource, response));
-                }
-            }
-        });
+                .subscribe(new CustomerSubscriber<List<Photo>>(false) {
+                    @Override
+                    protected void onSuccess(List<Photo> response) {
+                        if (isRefresh) {
+                            viewModel.writeDataSource(resource -> ListResource.refreshSuccess(resource, response));
+                        } else {
+                            viewModel.writeDataSource(resource -> ListResource.loadSuccessNot(resource, response));
+                        }
+                    }
+
+                    @Override
+                    public void onError(@NotNull Throwable e) {
+                        super.onError(e);
+                        viewModel.writeDataSource(resource -> ListResource.error(resource));
+                    }
+                });
     }
 }
