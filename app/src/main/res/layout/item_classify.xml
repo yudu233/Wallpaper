@@ -1,29 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/cardView"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/dp_10"
-    android:layout_marginEnd="@dimen/dp_10"
-    android:layout_marginBottom="@dimen/dp_10"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="5dp">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imv_cover"
+
+    <data>
+
+        <import type="com.rain.wallpaper.databiding.BindingConversion" />
+
+        <import type="com.rain.api.data.ClassifyInfo" />
+
+        <variable
+            name="data"
+            type="com.rain.api.data.ClassifyInfo" />
+
+        <variable
+            name="isOpen"
+            type="boolean" />
+
+    </data>
+
+
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:scaleType="fitXY"
-        android:src="@mipmap/cover_work" />
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/txv_coverTitle"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="工\t作"
-        android:textColor="@color/colorWhite"
-        android:textSize="30sp"
-        android:textStyle="bold" />
-</androidx.cardview.widget.CardView>
+        android:layout_marginBottom="@dimen/public_10dp"
+        app:cardCornerRadius="@dimen/public_5dp">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imv_classify_cover"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:src="@mipmap/img_classify_cover_test"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txv_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/public_10dp"
+                android:background="@{isOpen ?@drawable/shape_classify_status_open:@drawable/shape_classify_status_close }"
+                android:drawableStart="@drawable/shape_oval_open"
+                android:drawablePadding="@dimen/public_5dp"
+                android:paddingStart="@dimen/public_5dp"
+                android:paddingTop="3dp"
+                android:paddingEnd="@dimen/public_5dp"
+                android:paddingBottom="3dp"
+                android:text="@{data.status}"
+                android:textSize="@dimen/public_font_12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Open" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txv_classify_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/public_10dp"
+                android:layout_marginTop="@dimen/public_10dp"
+                android:text="@{data.title}"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imv_classify_cover"
+                app:layout_constraintTop_toTopOf="@+id/imv_avatar"
+                tools:text="Architecture" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txv_createOwner"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/public_10dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imv_avatar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txv_classify_name"
+                tools:text="by Unsplash" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imv_avatar"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="@dimen/public_10dp"
+                android:layout_marginEnd="@dimen/public_10dp"
+                android:scaleType="fitXY"
+                android:src="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imv_classify_cover"
+                app:shapeAppearanceOverlay="@style/style_image_circle" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txv_desc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/public_10dp"
+                android:layout_marginTop="@dimen/public_10dp"
+                android:layout_marginEnd="@dimen/public_10dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:text="@string/classify_desc_sample"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/imv_avatar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imv_avatar"
+                tools:text="@string/classify_desc_sample" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/public_10dp"
+                android:layout_marginTop="@dimen/public_10dp"
+                android:layout_marginBottom="@dimen/public_10dp"
+                android:drawableLeft="@mipmap/small_image"
+                android:drawablePadding="@dimen/public_5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txv_desc"
+                tools:text="3.9k contributions" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</layout>

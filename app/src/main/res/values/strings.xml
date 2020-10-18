@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">UnSplashWapper</string>
+    <string name="classify_desc_sample">
+        From brutalist buildings to minimalist structures, this Unsplash Awards category showcases the art of architecture, looking to understand and reflect on the structures that shape a place narrative.
+    </string>
 </resources>

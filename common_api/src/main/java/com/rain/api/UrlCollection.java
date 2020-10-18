@@ -29,10 +29,16 @@ public class UrlCollection {
 
     public static final String CATEGORIES = "categories";
 
+    public static final String TOPICS = "topics";
+
+
+
     //get recommend photos
     public static final String RECOMMEND_PHOTOS = "photos";
 
     //get photo from categories
-    public static final String GET_PHOTO_BY_CATEGORIES = CATEGORIES + "/%1$s" + "/";
+    public static final String GET_PHOTO_BY_CATEGORIES = TOPICS + "%1$s";
+
+    public static final String CATEGORIES_FASHION = "fashion";
 
 }
