@@ -3,15 +3,11 @@ package com.rain.wallpaper.ui.recommend;
 import androidx.annotation.NonNull;
 import androidx.hilt.Assisted;
 import androidx.hilt.lifecycle.ViewModelInject;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.SavedStateHandle;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.rain.api.data.Photo;
 import com.rain.sdk.ListResource;
 import com.rain.sdk.base.BaseViewModel;
-
-import java.util.List;
 
 /**
  * @Author: Rain
@@ -26,6 +22,7 @@ public class RecommendViewModel extends BaseViewModel<Photo> {
 
     private RecommendRepository repository;
     private SavedStateHandle savedStateHandle;
+    private String classify = "";
 
     @ViewModelInject
     public RecommendViewModel(@Assisted SavedStateHandle handle, RecommendRepository repository) {
@@ -35,9 +32,7 @@ public class RecommendViewModel extends BaseViewModel<Photo> {
 
     @Override
     protected boolean init(@NonNull ListResource<Photo> resource) {
-
         if (super.init(resource)) {
-            LogUtils.e("init : page = " + getListRequestPage());
             load();
             return true;
         }
@@ -47,12 +42,16 @@ public class RecommendViewModel extends BaseViewModel<Photo> {
     @Override
     public void refresh() {
         writeDataSource(ListResource::refreshing);
-        repository.getRecommendPhotos(this, true);
+        repository.getRecommendPhotos(this, classify, true);
     }
 
     @Override
     public void load() {
         writeDataSource(ListResource::loading);
-        repository.getRecommendPhotos(this, false);
+        repository.getRecommendPhotos(this, classify, false);
+    }
+
+    public void setClassify(String classify) {
+        this.classify = classify;
     }
 }

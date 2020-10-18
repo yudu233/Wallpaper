@@ -37,7 +37,7 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 @Module
 public abstract class HttpClientModule {
 
-    public static final Long DEFAULT_TIME = 10L;
+    public static final Long DEFAULT_TIME = 20L;
 
 
     @Singleton

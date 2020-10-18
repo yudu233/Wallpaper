@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.rain.sdk.ListResource;
 import com.rain.sdk.PhotoListPager;
 import com.rain.sdk.base.fragment.BaseInjectFragment;
@@ -43,12 +42,16 @@ public class RecommendFragment extends BaseInjectFragment<FragmentRecommendBindi
 
     @Override
     protected void initView() {
+
+
+
         binding.recyclerView.setAdapter(imageAdapter);
-
-
         RecommendViewModel recommendViewMode = new ViewModelProvider(this).get(RecommendViewModel.class);
         binding.setViewModel(recommendViewMode);
-
+        if (getArguments() != null){
+            String classify = getArguments().getString("classify");
+            recommendViewMode.setClassify(classify);
+        }
         recommendViewMode.init(ListResource.refreshing(0, PhotoListPager.DEFAULT_PER_PAGE));
 
         binding.smartRefreshLayout.setOnRefreshListener(refreshLayout -> {

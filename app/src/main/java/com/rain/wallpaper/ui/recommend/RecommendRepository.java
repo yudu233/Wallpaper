@@ -1,6 +1,5 @@
 package com.rain.wallpaper.ui.recommend;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.rain.api.data.ImageInfo;
 import com.rain.api.data.Photo;
 import com.rain.api.service.WallpaperApiService;
@@ -39,11 +38,15 @@ public class RecommendRepository {
     public RecommendRepository() {
     }
 
-    public void getRecommendPhotos(RecommendViewModel viewModel, boolean isRefresh) {
-        LogUtils.e("getRecommendPhotos : page = " + viewModel.getListRequestPage());
-        retrofit.create(WallpaperApiService.class)
-                .getRecommendPhotos(viewModel.getListRequestPage(), viewModel.getListPerPage())
-                .subscribeOn(Schedulers.io())
+    public void getRecommendPhotos(RecommendViewModel viewModel, String classify, boolean isRefresh) {
+        WallpaperApiService apiService = retrofit.create(WallpaperApiService.class);
+        Observable<List<ImageInfo>> photos;
+        if (classify.isEmpty()) {
+            photos = apiService.getRecommendPhotos(viewModel.getListRequestPage(), viewModel.getListPerPage());
+        } else {
+            photos = apiService.getClassifyPhotos(classify, viewModel.getListRequestPage(), viewModel.getListPerPage());
+        }
+        photos.subscribeOn(Schedulers.io())
                 .flatMapSingle((Function<List<ImageInfo>, SingleSource<List<Photo>>>) imageInfos ->
                         Observable.fromIterable(imageInfos)
                                 .flatMap((Function<ImageInfo, ObservableSource<Photo>>) imageInfo -> {
