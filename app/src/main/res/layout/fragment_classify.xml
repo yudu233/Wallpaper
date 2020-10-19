@@ -4,16 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:background="@color/public_color_FDFDFD"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/public_color_FDFDFD">
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_margin="@dimen/public_10dp"
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/public_10dp"
+            android:layout_marginTop="@dimen/public_10dp"
+            android:layout_marginEnd="@dimen/public_10dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_classify" />
 

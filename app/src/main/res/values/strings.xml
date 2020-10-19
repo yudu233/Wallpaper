@@ -3,4 +3,6 @@
     <string name="classify_desc_sample">
         From brutalist buildings to minimalist structures, this Unsplash Awards category showcases the art of architecture, looking to understand and reflect on the structures that shape a place narrative.
     </string>
+    <string name="text_by">by\t</string>
+    <string name="text_classify_count">%1$1.1fk contributions</string>
 </resources>

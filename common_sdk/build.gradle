@@ -72,6 +72,7 @@ dependencies {
     api project(path: ':common_api')
 
 
+    api 'com.github.bumptech.glide:glide:4.10.0'
 
 
 

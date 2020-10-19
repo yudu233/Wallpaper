@@ -3,6 +3,7 @@ package com.rain.wallpaper.ui.adapter;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -65,7 +66,7 @@ public class ImageAdapter extends BaseQuickAdapter<Photo, BaseViewHolder> implem
                 });
         imageView.setTag(R.id.tag_item_image_fade_in_flag, true);
 
-
+        Log.e("Rain",data.photoUrl);
         Glide.with(imageView)
                 .load(data.photoUrl)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)

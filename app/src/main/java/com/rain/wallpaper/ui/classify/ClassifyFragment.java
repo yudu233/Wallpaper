@@ -2,17 +2,11 @@ package com.rain.wallpaper.ui.classify;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.listener.OnItemClickListener;
-import com.rain.api.UrlCollection;
 import com.rain.api.data.ClassifyInfo;
 import com.rain.sdk.ListResource;
-import com.rain.sdk.base.BaseViewModel;
 import com.rain.sdk.base.fragment.BaseInjectFragment;
 import com.rain.wallpaper.R;
 import com.rain.wallpaper.databinding.FragmentClassifyBinding;
@@ -77,7 +71,6 @@ public class ClassifyFragment extends BaseInjectFragment<FragmentClassifyBinding
         classifyViewModel.init(ListResource.refreshing(0, 30));
 
 
-
         ClassifyAdapter mClassifyAdapter = new ClassifyAdapter(R.layout.item_classify);
 
 //        String[] classifyTitles = getResources().getStringArray(R.array.cover_images_title_CN);
@@ -93,45 +86,27 @@ public class ClassifyFragment extends BaseInjectFragment<FragmentClassifyBinding
         binding.recyclerView.setAdapter(mClassifyAdapter);
 
 
-
-
         mClassifyAdapter.setEmptyView(R.layout.layout_loading);
 
         classifyViewModel.observeListResource(this, viewModel -> {
-                    ListResource.State state = viewModel.getListState();
-                    if (state == ListResource.State.REFRESHING || state == ListResource.State.LOADING &&
-                            viewModel.getListSize() == 0) return;
+            ListResource.State state = viewModel.getListState();
+            if (state == ListResource.State.REFRESHING || state == ListResource.State.LOADING &&
+                    viewModel.getListSize() == 0) return;
 
-                    if (state == ListResource.State.ERROR) {
-                        mClassifyAdapter.setEmptyView(R.layout.layout_error);
-                    }
-
-
-
-                    viewModel.readDataList(new BaseViewModel.DataListReader<ClassifyInfo>() {
-                        @Override
-                        public void execute(List<ClassifyInfo> list) {
-                            mClassifyAdapter.setList(list);
-                        }
-                    });
-                });
-
-
-
-
-        mClassifyAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
-                switch (position) {
-                    case 0:
-                        Intent intent = new Intent(getContext(), PhotoListActivity.class);
-                        intent.putExtra("classify", UrlCollection.CATEGORIES_FASHION);
-                        startActivity(intent);
-                        break;
-                    case 1:
-                        break;
-                }
+            if (state == ListResource.State.ERROR) {
+                mClassifyAdapter.setEmptyView(R.layout.layout_error);
             }
+
+
+            viewModel.readDataList(list -> mClassifyAdapter.setList(list));
+        });
+
+
+        mClassifyAdapter.setOnItemClickListener((adapter, view, position) -> {
+            List<ClassifyInfo> data = (List<ClassifyInfo>) adapter.getData();
+            Intent intent = new Intent(getContext(), PhotoListActivity.class);
+            intent.putExtra("classify", data.get(position).getSlug());
+            startActivity(intent);
         });
 
     }

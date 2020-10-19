@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-
     <data>
 
         <import type="com.rain.wallpaper.databiding.BindingConversion" />
@@ -19,26 +18,37 @@
             name="isOpen"
             type="boolean" />
 
-    </data>
+        <variable
+            name="totalPhotos"
+            type="String" />
 
+        <variable
+            name="coverUrl"
+            type="String" />
+
+    </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/public_5dp"
         android:layout_marginBottom="@dimen/public_10dp"
-        app:cardCornerRadius="@dimen/public_5dp">
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="@dimen/public_5dp"
+        app:cardElevation="@dimen/public_8dp">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <androidx.appcompat.widget.AppCompatImageView
+            <com.rain.sdk.image.CoverImageView
                 android:id="@+id/imv_classify_cover"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="fitXY"
                 android:src="@mipmap/img_classify_cover_test"
+                app:imageUrl="@{coverUrl}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -67,6 +77,8 @@
                 android:layout_marginStart="@dimen/public_10dp"
                 android:layout_marginTop="@dimen/public_10dp"
                 android:text="@{data.title}"
+                android:textColor="@color/public_color_111111"
+                android:textSize="@dimen/public_font_16sp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imv_classify_cover"
@@ -75,10 +87,10 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/txv_createOwner"
-
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/public_10dp"
+                android:text="@{@string/text_by + data.owners.get(0).name}"
                 app:layout_constraintBottom_toBottomOf="@+id/imv_avatar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txv_classify_name"
@@ -91,10 +103,12 @@
                 android:layout_marginTop="@dimen/public_10dp"
                 android:layout_marginEnd="@dimen/public_10dp"
                 android:scaleType="fitXY"
-                android:src="@color/colorPrimary"
+                app:imageUrl="@{data.owners.get(0).profile_image.medium}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/imv_classify_cover"
-                app:shapeAppearanceOverlay="@style/style_image_circle" />
+                app:shapeAppearance="@style/style_image_circle"
+                app:strokeColor="@color/public_color_F9F9F9"
+                app:strokeWidth="1dp" />
 
 
             <androidx.appcompat.widget.AppCompatTextView
@@ -106,7 +120,8 @@
                 android:layout_marginEnd="@dimen/public_10dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:text="@string/classify_desc_sample"
+                android:text="@{data.description}"
+                android:textColor="@color/public_color_535353"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imv_avatar"
                 app:layout_constraintStart_toStartOf="parent"
@@ -114,13 +129,16 @@
                 tools:text="@string/classify_desc_sample" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/txv_total_photos"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/public_10dp"
                 android:layout_marginTop="@dimen/public_10dp"
                 android:layout_marginBottom="@dimen/public_10dp"
-                android:drawableLeft="@mipmap/small_image"
+                android:drawableStart="@mipmap/small_image"
                 android:drawablePadding="@dimen/public_5dp"
+                android:text="@{totalPhotos}"
+                android:textColor="@color/public_color_535353"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txv_desc"
